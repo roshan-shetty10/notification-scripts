@@ -1,0 +1,410 @@
+var NotificationUtils = Class.create();
+NotificationUtils.prototype = {
+    initialize: function(headerText) {
+        this.imagePlacement = "<img style='width: 100%; max-width: 100%; margin-top: 20px' src='{0}'/>  <br/><br/><br/>";
+        this.headerText = headerText;
+    },
+	
+    getDivider: function() {
+        return "<div style='padding: 10px;'></div><div style='border: 1px solid #AEBDD3;width: 100%;max-width: 100%;position: relative;'></div><div style='padding: 10px;'></div>";
+    },
+	getBodyDivider: function() {
+         return "<div style='border: 1px solid #AEBDD3;width: 100%;max-width: 100%;position: relative;'></div>";
+    },
+
+    getGearIconTouchWithHeader: function(headerText) {
+        return '<table><tbody><tr><td><img src="request_click1.png" class="icon-img"></td><td><div class="text" style="display: inline"><p class="head-text" style="display: inline; font-size:26px; font-family: gilroy,system-ui; color: #102D40;"> &nbsp;&nbsp;<strong>' + this.headerText + '</strong> </p></div></td></tr></tbody></table>';
+        //return '<div class = "heading"><img src = "request_click.png" style= "width: 32px; display: inline"></img><div class = "text" style = "display: inline"><p class= "head-text" style = "display: inline; font-size:26px; font-family: gilroy,system-ui; color:#102D40;"> &nbsp;&nbsp;<strong>' + this.headerText + '</strong> </p></div></div>';
+    },
+
+    getGearIconFrameWithHeader: function(headerText) {
+        return '<table><tbody><tr><td></td><td><div class="text" style="display: inline"><p class="head-text" style="display: inline; font-size:26px; font-family: gilroy,system-ui; color: #102D40;"> &nbsp;&nbsp;<strong>' + this.headerText + '</strong> </p></div></td></tr></tbody></table>';
+        //return '<div class = "heading"><img src = "FrameIcon.png" style= "width: 26px; display: inline"></img><div class = "text" style = "display: inline"><p class= "head-text" style = "display: inline; font-size:26px; font-family: gilroy,system-ui; color: #102D40;"> &nbsp;&nbsp;<strong>' + this.headerText + '</strong> </p></div></div>';
+    },
+
+    getGearIconOLAWithHeader: function(headerText) {
+        return '<table><tbody><tr><td><img src="Group-906.png" class="icon-img"></td><td><div class="text" style="display: inline"><p class="head-text" style="display: inline; font-size:26px; font-family: gilroy,system-ui; color: #102D40;"> &nbsp;&nbsp;<strong>' + this.headerText + '</strong> </p></div></td></tr></tbody></table>';
+        //return '<div class = "heading"><img src = "Group-906.png" style= "width: 26px; display: inline"></img><div class = "text" style = "display: inline"><p class= "head-text" style = "display: inline; font-size:26px; font-family: gilroy,system-ui; color: #102D40;"> &nbsp;&nbsp;<strong>' + this.headerText + '</strong> </p></div></div>';
+    },
+
+    getURLForGeneric: function() {
+        return URL('Generic.png');
+    },
+
+    getLinkProblem: function(currentObject, text, recordNumber) {
+
+        var sysID = currentObject.getValue('sys_id');
+        var number = currentObject.number.toString();
+        text = (text == '' || text === undefined || text == null) ? number : text;
+        var table = currentObject.getTableName();
+        var HREF = "/" + table + ".do?sys_id=" + sysID;
+        var finalLink = '<a href="' + HREF + '" style= "text-decoration: none;color: #0B7042;"><b>' + recordNumber + '</b></a>';
+        return finalLink;
+    },
+
+
+    getLink: function(currentObject, text) {
+
+        var sysID = currentObject.getValue('sys_id');
+        var number = currentObject.number.toString();
+        text = (text == '' || text === undefined || text == null) ? number : text;
+        var table = currentObject.getTableName();
+        var HREF = "/" + table + ".do?sys_id=" + sysID;
+        var finalLink = '<a href="' + HREF + '" style= "text-decoration: none;color: #0B7042;"><b>' + text + '</b></a>';
+        return finalLink;
+    },
+    getPortalLink: function(currentObject, text) {
+        var sysID = currentObject.getValue('sys_id');
+        var number = currentObject.number.toString();
+        text = (text == '' || text === undefined || text == null) ? number : text;
+        var table = currentObject.getTableName();
+        var HREF = "/esc?id=req_details&table=" + table + "&sys_id=" + sysID;
+        var finalLink = '<a href="' + HREF + '" style= "text-decoration: none;color: #0B7042;"><b>' + text + '</b></a>';
+        return finalLink;
+    },
+    getDesktopLink: function(currentObject, text) {
+        var sysID = currentObject.getValue('sys_id');
+        var number = currentObject.number.toString();
+        text = (text == '' || text === undefined || text == null) ? number : text;
+        var table = currentObject.getTableName();
+        var HREF = "/" + table + ".do?sys_id=" + sysID;
+        var finalLink = '<a class="desktopLink" href="' + HREF + '" style= "text-decoration: none;color: #0B7042;"><b>' + text + '</b></a>';
+        return finalLink;
+    },
+    getMobileLink: function(currentObject, text) {
+        var sysID = currentObject.getValue('sys_id');
+        var number = currentObject.number.toString();
+        text = (text == '' || text === undefined || text == null) ? number : text;
+        var table = currentObject.getTableName();
+        var linkGenerator = new global.MobileDeepLinkGenerator('agent');
+        var deepLink = linkGenerator.getFormScreenLink(gs.getProperty('documentid.pushmsg.notifyP1'), table, sysID);
+        var finalLink = '<a class="mobileLink" style="display: none; text-decoration: none;color: #0B7042;" href=' + deepLink + '><b>' + text + '</b></a>';
+        return finalLink;
+    },
+
+    lastTwoCommentsWorknotes: function(elementId, element, elementDisplay, n, table) {
+        var templateString = '';
+        var count = 0;
+        var journalGr = new GlideRecord('sys_journal_field');
+        journalGr.addQuery('element_id', elementId);
+        journalGr.addQuery('element', element);
+        journalGr.orderByDesc('sys_created_on');
+        journalGr.query();
+        while (journalGr.next() && count < n) {
+            count++;
+            var formattedDate = new JournalEntryUtilsCustom().formatDate(journalGr.getDisplayValue('sys_created_on'), 'MM-dd-YYYY');
+
+            var namePart = GlideUser.getUserByID(journalGr.getValue('sys_created_by')).getDisplayName() + "<br>" + formattedDate;
+
+            var journalEntryPart = journalGr.getDisplayValue('value');
+            journalEntryPart = journalEntryPart.replace(/\n/g, '<br>');
+            if (journalEntryPart || journalEntryPart != undefined || journalEntryPart != null) {
+                templateString += '<hr style="background-color:#D4D8D9;height:1px;border-width:0;opacity:0.6;"></hr>';
+                templateString += '<table bgcolor="white" width="568" border="0" cellspacing="0" cellpadding="0"><tbody>';
+                templateString += '<tr>';
+                templateString += '<td align="left" valign="top"><span><strong>' + namePart + ' </strong></span></td>';
+                templateString += '<td align="right" valign="top"><span style="float:right;"><sup style="text-align:right;float:right;margin-right:10px;">' + elementDisplay + '</sup></span></td>';
+                templateString += '</tr>';
+                templateString += '</tbody></table><br>';
+                templateString += '<table width="100%" border="0" cellspacing="0"><tbody><tr><td style="color:#000000;font-size:16px;font-family:gilroy;text-align:left;word-break:break-word;">' + journalEntryPart + '</td></tr></tbody></table>';
+                templateString += '<br>';
+            }
+            templateString += '<a href="/' + table + '.do?sys_id=' + elementId + '" style="display:flex; flex-direction:column; align-items:  flex-start; position: absolute; font-family: gilroy,system-ui; border: 1px solid green; border-radius: 15px; text-decoration: none; color: green; padding: 5px 10px;">Read more comments</a>';
+            if (count != n) templateString += "<div style='padding: 20px;'></div>";
+        }
+        return templateString;
+    },
+
+    getLinkWithDocument: function(currentObject, table, text) {
+
+        var sysID = currentObject;
+        //var number = currentObject.number.toString();
+        //text = (text == '' || text === undefined || text == null) ? number : text;
+        var HREF = "/" + table + ".do?sys_id=" + sysID;
+        var finalLink = '<a href="' + HREF + '" style= "text-decoration: none;color: #0B7042;"><b>' + text + '</b></a>';
+        return finalLink;
+    },
+
+    getHeaderText: function(headerText) {
+        // return '<table><tbody><tr><td><img src="request_click1.png" class="icon-img"></td><td><div class="text" style="display: inline"><p class="head-text" style="display: inline; font-size:26px; font-family: gilroy,system-ui; color: #102D40;"> &nbsp;&nbsp;<strong>' + this.headerText + '</strong> </p></div></td></tr></tbody></table>';
+        //return '<div class = "heading"><img src = "request_click.png" style= "width: 32px; display: inline"></img><div class = "text" style = "display: inline"><p class= "head-text" style = "display: inline; font-size:26px; font-family: gilroy,system-ui; color:#102D40;"> &nbsp;&nbsp;<strong>' + this.headerText + '</strong> </p></div></div>';
+        return '<table><tbody><tr><td><div class="text" style="display: inline"><p class="head-text" style="display: inline; font-size:26px; font-family: gilroy,system-ui; color: #102D40;"> &nbsp;&nbsp;<strong>' + this.headerText + '</strong> </p></div></td></tr></tbody></table></br>';
+    },
+
+    /*** New methods for Email rationaliation. These methods has been reused in major number of email notification scripts which reflects look and feel of emails used these methods. 
+    PLEASE DO NOT UPDATE THESE METHODS. IF THESE METHODS ARE UPDATED, IT EFFECTS MULTIPLE NOTIFICATIONS. UPDATE THESE ONLY IF CHANGES REQUIRED ACROSS THE EMAIL NOTIFICATIONS***/
+
+    startOfEmailHeaderandNBodyTable: function() {
+        return '<table class="main-detail-divider">';
+
+    },
+    endofTable: function() {
+        return '</table>';
+
+    },
+
+    startOfEmailHeaderandBodyRow: function() {
+        return '<tr><td class="Frame22">';
+
+    },
+    endOfTRandTD: function() {
+
+        return '</td></tr>';
+    },
+
+    getHeaderTextDiv: function(headerText) {
+        if (gs.nil(headerText))
+            headerText = this.headerText;
+
+        return '<table><tr><td class="bodyHeaderText">' + headerText + '</td></tr></table>';
+
+    },
+    getEmailBodyStartofGreyarea: function() {
+        //return '<div class="Call_out_box">';
+        return '<table><tr><td class="Call_out_box">';
+    },
+
+    endOfDiv: function() {
+        return '</div>';
+    },
+
+    greyAreaContentLine: function(text, fontweight, color, hyperLink) {
+        var inlineStyle = '';
+        var styleattr = '';
+        if (!gs.nil(fontweight)) {
+            inlineStyle = inlineStyle + "font-weight:" + fontweight + ";";
+        }
+        if (!gs.nil(color)) {
+            inlineStyle = inlineStyle + "color:" + color + ";";
+        }
+        if (!gs.nil(inlineStyle)) {
+            styleattr = ' style=' + inlineStyle;
+        }
+        return '<span class="Greeting-line"' + styleattr + '>' + text + '</span>';
+    },
+
+    startOfButtonsDiv: function() {
+        return '<table class="CTA_aprove"><tr>';
+        //return '<table class="CTA_aprove">';
+    },
+
+    returnButtonWithStyle: function(text, backgroundcolor, color, hyperLink) {
+        var inlineStyle = '';
+        var styleattr = '';
+        if (!gs.nil(backgroundcolor)) {
+            inlineStyle = inlineStyle + "background:" + backgroundcolor + ";";
+        }
+        if (!gs.nil(color)) {
+            inlineStyle = inlineStyle + "color:" + color + ";";
+        }
+        if (!gs.nil(hyperLink)) {
+            text = hyperLink;
+        }
+        if (!gs.nil(inlineStyle)) {
+            styleattr = ' style=' + inlineStyle;
+        }
+        //return '<div class = "buttonDiv" style='+inlineStyle+'> <div class="buttonInsideDiv">'+text+'</div></div>';
+        return '<td align="center" class="buttonDiv"' + styleattr + '><div class="buttonInsideDiv">' + text + '</div></td>';
+
+    },
+
+    startOfDetailsmetadataRow: function() {
+        //return '<tr class="Frame23"><td class="Detail-metadata">';
+        return '<table class="Detail-metadata"><tr class="Frame628685">';
+
+    },
+    startOfDetailsLabelDiv: function() {
+        return '<div class="Frame628685">';
+
+    },
+    getDetailsLabelText: function(text) {
+        return '<td class="Detailsinline">' + text + '</td>';
+
+    },
+
+    getDetailsContentLabel: function(text) {
+        return '<span class="detailsLabel">' + text + '</span>';
+
+    },
+
+    getDetailsContentLineText: function(text, fontweight, color, hyperLink) {
+        var inlineStyle = '';
+        var styleattr = '';
+        if (!gs.nil(fontweight)) {
+            inlineStyle = inlineStyle + "font-weight:" + fontweight + ";";
+        }
+        if (!gs.nil(color)) {
+            inlineStyle = inlineStyle + "color:" + color + ";";
+        }
+        if (!gs.nil(inlineStyle)) {
+            styleattr = ' style=' + inlineStyle;
+        }
+        return '<span class="detailsContentLine"' + styleattr + '>' + text + '</span><br/>';
+
+    },
+    returnContentInlineButtonWithStyle: function(text, backgroundcolor, color, hyperLink) {
+        var inlineStyle = '';
+        var styleattr = '';
+        if (!gs.nil(backgroundcolor)) {
+            inlineStyle = inlineStyle + "background:" + backgroundcolor + ";";
+        }
+        if (!gs.nil(color)) {
+
+            inlineStyle = inlineStyle + "color:" + color + ";";
+        }
+
+        if (!gs.nil(hyperLink)) {
+            text = hyperLink;
+        }
+
+        if (!gs.nil(inlineStyle)) {
+            styleattr = ' style=' + inlineStyle;
+        }
+
+        return '<td class = "buttonInContent"' + styleattr + '> <div class="buttonInContentinline">' + text + '</div></td>';
+        //return '<td style="width: 50%;"> <div style="color: #1F6213; font-size: 14px; font-family: Lato,Arial,sans-serif; font-weight: 600; line-height: 20px; word-wrap: break-word;text-align: center;padding-top: 10px; padding-bottom: 10px; width: 40%; padding-left: 30px;float: right;padding-right: 30px; border-radius: 60px; border: 1px #1F6213 solid;">'+text+'</div></td>';
+    },
+    getDividerLine: function() {
+        return '<tr><td><div class="divider"></div></td></tr>';
+        //return '<table><tr><td class="divider"></td></tr></table>';
+    },
+    endOfTableTRandTD: function() {
+
+        return '</td></tr></table>';
+    },
+    endofTableandTR: function() {
+        return '</tr></table>';
+
+    },
+    startOfDetailsContentTable: function() {
+        return '<table class="DetailsContentTable">';
+
+    },
+
+    getUserPhoto: function(userId) {
+        var linkToPhoto;
+        var userRec = new GlideRecord('sys_user');
+        userRec.addQuery('user_name', userId);
+        userRec.query();
+        if (userRec.next()) {
+            linkToPhoto = "sys_attachment.do?sys_id=" + userRec.photo;
+        }
+        return linkToPhoto;
+    },
+
+    lastTwoCommentsWorknotesForNewTemplate: function(elementId, element, elementDisplay, n, table,inDetailsSection) {
+        var templateString = '';
+        var count = 0;
+		var displayInDetailsSection = false;
+		if(!gs.nil(inDetailsSection)){
+			displayInDetailsSection = inDetailsSection; // value should be true/false
+		}
+        var isJournalEntryavailable = false;
+        var journalGr = new GlideRecord('sys_journal_field');
+        journalGr.addQuery('element_id', elementId);
+        journalGr.addQuery('element', element);
+        journalGr.orderByDesc('sys_created_on');
+        journalGr.query();
+        while (journalGr.next() && count < n) {
+            count++;
+            var formattedDate = new JournalEntryUtilsCustom().formatDate(journalGr.getDisplayValue('sys_created_on'), 'MM-dd-YYYY');
+
+            var namePart = GlideUser.getUserByID(journalGr.getValue('sys_created_by')).getDisplayName() + "<br>" + formattedDate;
+
+            var onlyNamePart = GlideUser.getUserByID(journalGr.getValue('sys_created_by')).getDisplayName();
+
+            var linkToPhoto = this.getUserPhoto(journalGr.getValue('sys_created_by'));
+
+            var journalEntryPart = journalGr.getDisplayValue('value');
+            journalEntryPart = journalEntryPart.replace(/\n/g, '<br>');
+            if (journalEntryPart || journalEntryPart != undefined || journalEntryPart != null) {
+
+                isJournalEntryavailable = true;
+				if(displayInDetailsSection == true || displayInDetailsSection == 'true')
+					templateString += '<table style="height:100%;padding-left:10px;"><tr>'; // Start of whole journal table
+				else
+					templateString += '<table style="height:100%"><tr>'; // Start of whole journal table
+                //templateString += '<td style="padding-right: 10px;height: 100%;display:inline-block;"><div style="width: 2px;background: #8A8E91;height: 100%;line-height:100px;border: 0px #8A8E91 solid;mso-line-height-rule:exactly;">&nbsp;</div></td>';
+                templateString += '<td style="height: 100%;border: 0px #8A8E91 solid;background: #8A8E91;display: inline-block;line-height: 4px;mso-line-height-rule: exactly;position: relative;"></td>';
+
+                templateString += '<td style="padding-left: 5px;">'; //start of jounal entries header TD
+                templateString += '<table><tr>'; //start of jounal entries header table
+                templateString += '<td><img width="40" height="40" style="width: 40px !important; height: 40px !important; border-radius: 28px" src="' + linkToPhoto + '"></td>'; //Image TD - To be updated
+                templateString += '<td style="width:100%;"><table style="width:fit-content;"><tr>'; //Start of name and date part
+                templateString += '<td style="color: #1F1F1F; font-size: 14px; font-family: Lato,Arial,sans-serif; font-weight: 600; padding: 0 10px;line-height: 20px; word-wrap: break-word">' + onlyNamePart + '</td>'; // Only Name part
+                templateString += '<td style="color: #666666; font-size: 14px; font-family: Lato,Arial,sans-serif; font-weight: 400; line-height: 20px; word-wrap: break-word">' + formattedDate + '</td>'; // Only Date
+                templateString += '</tr></table>'; // End of name and date part
+                templateString += '</tr></table>'; // End of journal entries header table
+
+
+                // Journal entries content part
+
+                templateString += '<table><tbody><tr><td class="Greeting-line-Parent">' + this.greyAreaContentLine(journalEntryPart) + '</td></tr></tbody></table>';
+                templateString += '</td>'; //end of jounal entries header TD
+                templateString += '</tr></table>'; // End of whole journal table
+            }
+
+        }
+        if (isJournalEntryavailable) {
+            // Read more.. button content
+			if(displayInDetailsSection == true || displayInDetailsSection == 'true'){
+				var linkText = "Read More Comments ->";
+				if (element == 'work_notes') {
+					linkText = "Read More Work Notes ->";
+				}
+				var linkToTaskRec = '<a href="/' + table + '.do?sys_id=' + elementId + '" style="color: #298319 !important;text-decoration: none !important;font-family: Lato,Arial,sans-serif !important;font-weight: 600 !important;">' + linkText + '</a>';
+				templateString += '<table style="padding-top:15px;"><tr><td align="center" style="padding-top: 3px;padding-bottom: 3px;padding-left:10px;"><div style="color: #298319;font-size: 14px;font-family: Lato,Arial,sans-serif !important;;font-weight: 600;line-height: 20px;word-wrap: break-word;">'+linkToTaskRec+'</div></td></tr></tbody></table>';
+				
+			}else{
+				var buttonText = "Read More Comments";
+				if (element == 'work_notes') {
+					buttonText = "Read More Work Notes";
+				}
+				var linkToTask = '<a href="/' + table + '.do?sys_id=' + elementId + '">' + buttonText + '</a>';
+				templateString += this.startOfButtonsDiv(); //start of Buttons
+				templateString += this.returnButtonWithStyle(buttonText, "#298319", "", linkToTask) + '<td style="padding:10px;"></td>';
+				templateString += this.endofTableandTR(); //end of Buttons Div
+			}
+        }
+	
+        // } // Previous closure of while loop
+        return templateString;
+    },
+	
+	startOfInlineTableInDetails:function() {
+		return '<table class="inlineTableInDetails">';
+	},
+	startOfInlineTableInDetailsHeaderTR:function() {
+		return '<tr class="inlineTableInDetailsHeaderTR">';
+	},
+	inlineTableInDetailsTH:function(text,widthPercentageVal) {
+		var inlineStyle = '';
+        var styleattr = '';
+        if (!gs.nil(widthPercentageVal)) {
+            inlineStyle = inlineStyle + "width:" + widthPercentageVal + ";";
+        }
+		if (!gs.nil(inlineStyle)) {
+            styleattr = ' style=' + inlineStyle;
+        }
+		return '<th class="inlineTableInDetailsTH"'+ styleattr +'>'+text+'</th>';
+	},
+	startofInlineTableInDetailsDataTR:function() {
+		return '<tr class="inlineTableInDetailsDataTR">';
+	},
+	inlineTableInDetailsTD:function(text,widthPercentageVal) {
+		var inlineStyle = '';
+        var styleattr = '';
+        if (!gs.nil(widthPercentageVal)) {
+            inlineStyle = inlineStyle + "width:" + widthPercentageVal + ";";
+        }
+		if (!gs.nil(inlineStyle)) {
+            styleattr = ' style=' + inlineStyle;
+        }
+		return '<td class="inlineTableInDetailsTD"'+ styleattr +'>'+text+'</td>';
+	},
+	endOfTR: function(){
+		return '</tr>';
+	},
+
+    type: 'NotificationUtils'
+};

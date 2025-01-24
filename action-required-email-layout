@@ -1,0 +1,286 @@
+<style>
+body {
+   Margin: 0;
+   padding: 0;
+   font-family: 'Lato',Arial,sans-serif,system-ui;
+}
+	
+.wraper{
+   width: 100%;
+   table-layout: fixed;
+}
+.InnertableWithHeader{
+ width: 540px;
+}
+.Frame26logo {
+    width: 100%; /* Make it span the entire width */
+    display: flex; /* Use flexbox for alignment */
+    justify-content: flex-end; /* Align the logo to the right */
+    align-items: center; /* Center the logo vertically (if needed) */
+    //background: url('approvalBackground.png'); 
+	//background-size: cover;
+	//background-size: 100% 100%;
+	//border-radius:10px;
+}
+
+.OuterRow{
+display: inline-block;width: 571px;padding-bottom: 0px;
+}
+.Outer{
+/*width: 580px;*/ height: fit-content;; padding-left: 20px; padding-right: 20px; padding-top: 30px; padding-bottom: 30px; left: 0px; position: relative; background: white; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.30); border-radius: 20px;border: 1px solid #AEBDD3;vertical-align: top;
+width: fit-content; border: 2px solid rgb(0 0 0 / 14%); border-top: 1px solid rgb(0 0 0 / 6%);mso-border-radius-rule:exactly;
+
+}
+.Headerlogo{
+	position: relative;
+	top:7px;
+	//padding-left: 20px;
+	//padding-right: 20px;
+	//background-color: #2551da;
+}
+
+.Headerplus{
+}
+.imagecontentrow{
+	display:inline-block;padding-bottom:15px;
+}
+.TopHeader{
+width: 540px;
+
+}
+.ContentHeaderImage{
+width: 38px !important; height: 38px !important;
+}
+.ActionRequired{
+
+color: black; font-size: 16px; font-family: 'Gilroy',Arial,sans-serif; font-weight: 600; /*line-height: 20px;*/ word-wrap: break-word;padding-right:20px;padding-left:20px;float:left;
+}
+
+.Rectangaleline{
+/*flex: 1 1 0;*/ height: 4px; background: #EAA300;display:flow-root;margin-top:7px;border: 0px #EAA300 solid;line-height: 4px;mso-line-height-rule:exactly;
+}
+.main-details-divider-footer{
+display: inline-block; position: relative;
+}
+.main-details-divider-footer p{
+display: none;
+}
+.Footer{
+width: 539px;display: inline-table;padding-top:10px;
+}
+.Footerline{
+color: #474D52; font-size: 14px; font-family: 'Lato',Arial,sans-serif; font-weight: 400; text-transform: capitalize; line-height: 40px; word-wrap: break-word;mso-line-height-rule:exactly;
+
+}
+.FooterlineTD{
+color: #474D52; font-size: 14px; font-family: 'Lato',Arial,sans-serif; font-weight: 400; text-transform: capitalize; line-height: 0px; word-wrap: break-word;mso-line-height-rule:exactly;position: relative;
+}
+.FooterlineTD a{
+color: #1F6213 !important; font-size: 14px; font-family: 'Lato',Arial,sans-serif !important; font-weight: 700 !important; text-transform: capitalize; word-wrap: break-word;text-decoration:none !important;
+
+}
+.FooterlineTD a span{
+color: #1F6213 !important; font-size: 14px; font-family: 'Lato',Arial,sans-serif !important; font-weight: 700 !important; text-transform: capitalize; word-wrap: break-word;text-decoration:none !important;
+}
+	
+.logocontentrow{
+	display:inline-block;
+	padding-bottom:0px;
+
+}
+.divider{
+	width: 520px; height: 0px; border: 0px #CAC4D0 solid;background: #CAC4D0;display: inline-block;line-height:0px;mso-line-height-rule:exactly;position: relative;
+}
+
+
+<!-- Styles for Dynamic content-->
+	
+.main-detail-divider{
+	display: inline-block
+}
+.Frame22{
+display: inline-block;padding-bottom:10px;
+}
+.bodyHeaderText{
+width: 540px; color: #1F1F1F; font-size: 18px; font-family: 'Gilroy',Arial,sans-serif; font-weight: 700; line-height: 20px; word-wrap: break-word;padding-bottom: 10px;
+}
+.Call_out_box{
+padding: 20px; background: #F3F5F7; border-radius: 10px;display: inline-block;padding-left:20px;vertical-align: top;
+}
+.Greeting-line{
+color: #1F1F1F; font-size: 14px; font-family: 'Lato',Arial,sans-serif; font-weight: 400; line-height: 20px; word-wrap: break-word;width: 500px;
+}
+.Greeting-line-Parent{
+	width: 500px;padding-bottom: 5px;
+}
+.Greeting-line a{
+	font-family: 'Lato',Arial,sans-serif !important;color: #1F6213 !important; font-size: 14px; font-weight: 400 !important; line-height: 20px; word-wrap: break-word;width: 700px;text-decoration:none !important;
+}
+.CTA_aprove{
+padding-top: 15px;/*padding-bottom:20px;*/
+}
+.buttonDiv{
+
+padding-left: 30px; padding-right: 30px; padding-top: 3px; padding-bottom: 3px; background: #298319; border-radius: 60px;float:left;
+}
+.buttonInsideDiv{
+color: white; font-size: 14px; font-family: 'Lato',Arial,sans-serif !important; font-weight: 600; line-height: 20px; word-wrap: break-word;
+}
+.Frame23{
+display: inline-block;
+}
+.Detail-metadata{
+display: inline-block;padding-top: 10px;width:100%;
+}
+.Frame628685{
+width: 100%;
+
+}
+.Detailsinline{
+width: 65%; color: #1F1F1F; font-size: 16px; font-family: 'Gilroy',Arial,sans-serif; font-weight: 600; line-height: 20px; word-wrap: break-word;/*padding-right:280px;*/
+}
+.buttonInContent{
+/*padding-left: 30px; padding-right: 30px; padding-top: 5px; padding-bottom: 5px; background: white; border-radius: 60px; border: 1px #1F6213 solid;*/
+width: 40%;/*float:right;*/
+}
+.buttonInContentinline{
+color: #1F6213; font-size: 14px; font-family: 'Lato',Arial,sans-serif; font-weight: 600; line-height: 20px; word-wrap: break-word;text-align: center;padding-top: 5px; padding-bottom: 5px; width: 90%; padding-left: 20px;float: right;padding-right: 20px; border-radius: 60px; border: 1px #1F6213 solid;
+    
+}
+.DetailsContentTable{
+width: 540px;padding-bottom:0px;display:inline-block;
+}
+.detailsContentInlineTD{
+width: 540px;padding-bottom: 0px;display:inline-block;word-break: break-word !important;
+}
+.detailsLabel{
+color: #474D52; font-size: 14px; font-family: 'Lato',Arial,sans-serif; font-weight: 600; line-height: 28px; word-wrap: break-word;padding-bottom:10px;mso-line-height-rule:exactly;
+}
+.detailsContentLine{
+color: #474D52; font-size: 14px; font-family: 'Lato',Arial,sans-serif; font-weight: 400; line-height: 28px; word-wrap: break-word;mso-line-height-rule:exactly;word-break: break-word !important;
+
+}
+
+.buttonInsideDiv a{
+	color:white !important;text-decoration:none !important;font-family: 'Lato',Arial,sans-serif !important;font-weight: 600!important;
+}
+.buttonInContentinline a{
+	font-family: 'Lato',Arial,sans-serif !important;color: #1F6213 !important;text-decoration:none !important;
+}
+
+.detailsContentLine a{
+color: #1F6213 !important; font-size: 14px; font-family: 'Lato',Arial,sans-serif !important; font-weight: 600 !important; word-wrap: break-word;mso-line-height-rule:exactly;text-decoration:none !important;
+
+}
+.detailsContentLine a span{
+color: #1F6213 !important; font-size: 14px; font-family: 'Lato',Arial,sans-serif !important; font-weight: 600 !important; word-wrap: break-word;mso-line-height-rule:exactly;text-decoration:none !important;
+
+}
+.buttonInsideDiv a span{
+	color:white !important;text-decoration:none !important;font-family: 'Lato',Arial,sans-serif !important;font-weight: 600!important;
+}
+.Greeting-line a span{
+	font-family: 'Lato',Arial,sans-serif !important;color: #1F6213 !important; font-size: 14px; font-weight: 400 !important; line-height: 20px; word-wrap: break-word;width: 700px;text-decoration:none !important;
+}
+.buttonInsideDiv a[href^='mailto:'] {color: white !important;}
+.Greeting-line a[href^='mailto:']{color: #1F6213 !important;}
+
+.inlineTableInDetails{
+width: 540px;padding-bottom:10px;display:inline-block;border-collapse: collapse;
+}
+.inlineTableInDetailsHeaderTR{
+	background: #F9F9FD;
+}
+.inlineTableInDetailsTH{
+padding: 15px 15px;word-wrap: break-word;line-height: 20px;mso-line-height-rule:exactly;text-align:left;
+color: #474D52;background-color:#F9F9FD;font-size: 14px; font-family: 'Lato',Arial,sans-serif; font-weight: 600;
+}
+.inlineTableInDetailsDataTR{
+	border-bottom: 1px #DBE1E7 solid;
+}
+.inlineTableInDetailsTD{
+padding: 15px 15px;word-wrap: break-word;line-height: 20px;mso-line-height-rule:exactly;text-align:left;
+color: #474D52; font-size: 14px; font-family: 'Lato',Arial,sans-serif; font-weight: 400;text-align:left;
+}
+.inlineTableInDetailsTD a{
+color: #1F6213 !important; font-size: 14px; font-family: 'Lato',Arial,sans-serif !important; font-weight: 600 !important; word-wrap: break-word;mso-line-height-rule:exactly;text-decoration:none !important;
+
+}
+.inlineTableInDetailsTD a span{
+color: #1F6213 !important; font-size: 14px; font-family: 'Lato',Arial,sans-serif !important; font-weight: 600 !important; word-wrap: break-word;mso-line-height-rule:exactly;text-decoration:none !important;
+
+}
+</style>
+<body>
+<div style="width: 100%;height: auto; background: white; justify-content: left; align-items: center; display: inline-flex">
+    <div style="flex: 1 1 0; align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+        <table style="width: 580px;position: relative">
+			<!--<tr><td>
+				<table class="Frame26logo">
+					<tr class="logocontentrow">
+						<td class="Headerlogo">
+						<img width="100" height= "100" src="alshayawhite.svg"/>
+						</td>
+					</tr> 
+				</table>
+			</td></tr>-->
+			<tr class="OuterRow">
+				<td class="Outer">
+					<table class="InnertableWithHeader">
+						<tr>
+							<td>
+								<table class="Headerplus">
+									<tr class="imagecontentrow">
+										<td class="TopHeader">
+											<table>
+												<tr>
+													<td>
+														<table class="Frame26logo1" style="width: 580px;position: relative">
+															<!--<tr>
+																<td style="position: relative;">
+																	<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
+																		<tr>
+																			<td align="center" valign="middle"> -->
+																				<img width="100%" height="100" style="border-radius: 5px;" src="NotificationBackground.png" alt="Logo" />
+																			<!--</td>
+																		</tr>
+																	</table>
+																</td>
+															</tr>-->
+														</table>
+													</td>
+												</tr>
+											</table>
+											<table style="margin-top:10px;">
+												<tr>
+													<td><img width="38" height="38" class="ContentHeaderImage" src="ActionRequired_LightTheme.png" alt="Orange icon of an index finger pointing upwards, indicating 'Action Required' with medium severity." title="Orange icon of an index finger pointing upwards, indicating 'Action Required' with medium severity."/></td>
+													<td style="width:100%;">  
+														<table style="width:100%;" >
+														<tr>
+															<td class="ActionRequired">Action Required</td>
+															<td style="width:65%;display:inline-block;"><div class="Rectangaleline">&#160;</div></td>
+														</tr>
+														</table>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<table class="main-detail-divider">
+												<p>${notification:body}</p>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+</body>

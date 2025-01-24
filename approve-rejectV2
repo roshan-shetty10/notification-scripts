@@ -1,0 +1,134 @@
+(function runMailScript(current, template, email, email_action, event) {
+	//var a= current.number;
+	var header = "Request is waiting";
+	var subject = "is waiting for your Approval ";
+    var notifyUtils = new global.NotificationUtils(header);
+	var firstName = current.approver.name;
+    var instance_name = gs.getProperty('instance_name');
+    var watermark = email.watermark;
+	var table = current.source_table || current.sysapproval.sys_class_name || false;
+	var requestedItemGR = false;
+	var number = current.sysapproval.number || false;
+	var pvalue = false;
+	var RequestNumberLink = false;
+	var requestedBy = false;
+	var recordlink = false;
+	var recordURL = false;
+	if(table){
+		requestedItemGR = new GlideRecord(table);
+		requestedItemGR.get(current.document_id);
+		RequestNumberLink = notifyUtils.getLink(requestedItemGR, number);
+		requestedBy = requestedItemGR.requested_by.getDisplayValue() || requestedItemGR.u_requested_by.getDisplayValue() || requestedItemGR.opened_by.getDisplayValue();
+		recordlink = requestedItemGR.getLink();
+		recordURL = 'https://' + instance_name + '.service-now.com/'+table+'.do?sys_id=' + request_sysid ;
+		pvalue = 'notify.'+table.toString();
+		number = requestedItemGR.number.toString();
+	}
+	var label = false;
+	if(gs.getProperty(pvalue)){
+		label = ' ' + gs.getProperty(pvalue).split(',')[0].trim();
+		header = 'Approval required for ' + label.toLowerCase();
+	}else{
+		label = '';
+	}
+	if(!RequestNumberLink){
+		RequestNumberLink = number;
+	}
+	var requested_by = current.document_id.u_requested_for.getDisplayValue() || current.requested_by.getDisplayValue() || current.opened_by.getDisplayValue();
+	
+	
+	
+	var shortDescription = requestedItemGR.short_description;
+	var request_sysid = current.document_id+'';
+    
+	var approvelink = '<a href="mailto:' + instance_name + '@service-now.com?Subject=RE:'+number+' - approved&amp;body=' + watermark + '" target="_top"><span>Approve</span></a>';
+    var rejectlink = '<a href="mailto:' + instance_name + '@service-now.com?Subject=RE:'+number+' - rejected&amp;body=' + watermark + '" target="_top"><span>Reject</span></a>';
+	//email.setSubject(subject + " (" + number + ") " + table);
+	email.setSubject (number +" "+subject);
+
+	template.print(notifyUtils.getHeaderTextDiv(header)); // HeaderText
+    template.print(notifyUtils.getEmailBodyStartofGreyarea()); // Start of Grey area content
+    // template.print('<table><tr><td class="Greeting-line-Parent">' + notifyUtils.greyAreaContentLine("Hello ") + notifyUtils.greyAreaContentLine(firstName + ",", "600") + '</td></tr></table>');
+    // template.print('<table><tr><td class="Greeting-line-Parent">' + notifyUtils.greyAreaContentLine("We need your Approval to proceed with the") + notifyUtils.greyAreaContentLine(label) +  ' ' + notifyUtils.greyAreaContentLine(RequestNumberLink)  + '</td></tr></table>');
+	template.print('<table><tr><td class="Greeting-line-Parent" style="font-family: Arial; font-size: 15px;">' +
+  notifyUtils.greyAreaContentLine("Hello ") +
+  notifyUtils.greyAreaContentLine(firstName + ",", "600") +
+  '</td></tr></table>');
+ 
+template.print('<table><tr><td class="Greeting-line-Parent" style="font-family: Arial; font-size: 15px;">' +
+  notifyUtils.greyAreaContentLine("We need your Approval to proceed with the") +
+  notifyUtils.greyAreaContentLine(label) + ' ' +
+  notifyUtils.greyAreaContentLine(RequestNumberLink) +
+  '</td></tr></table>');
+	
+	
+	template.print(notifyUtils.startOfButtonsDiv()); //start of Buttons
+    template.print(notifyUtils.returnButtonWithStyle("Approve", "#298319", "", approvelink) + '<td style="padding:10px;"></td>' + notifyUtils.returnButtonWithStyle("Reject", "#D62A2A", "", rejectlink)); // Review story button
+    template.print(notifyUtils.endofTableandTR()); //end of Buttons Div
+    template.print('<br/>');
+	
+//	template.print('<table><tr><td class="Greeting-line-Parent">' + notifyUtils.greyAreaContentLine("Thank you!") + '<br/>' + notifyUtils.greyAreaContentLine("- Alshaya Support.") + '</td></tr></table>');
+    template.print(notifyUtils.endOfTableTRandTD());
+	
+	var detailOn = false;
+	var gr = new GlideRecord("sc_req_item");
+	gr.addEncodedQuery('sys_id='+request_sysid);
+	gr.query();
+	if(gr.next()) {
+		detailOn = true;
+		template.print(notifyUtils.startOfDetailsmetadataRow()); //Start of Details Label section
+		template.print(notifyUtils.getDetailsLabelText("Details"));
+		template.print(notifyUtils.endofTableandTR()); // End of Details Label Section Div.
+		template.print(notifyUtils.getBodyDivider());
+		template.print(notifyUtils.startOfDetailsContentTable()); //Start of Details Content
+		var stage = gr.stage.getDisplayValue();
+		var misc = gr.variable_pool.alt_poc;
+		if (JSUtil.nil(stage))
+		stage = gr.stage.getChoiceValue();
+		template.print('<tr><td class="detailsContentInlineTD">' + notifyUtils.getDetailsContentLabel("Stage: ") + notifyUtils.greyAreaContentLine(stage) + '</td></tr>');
+		gs.info("SRI " + JSON.stringify(gr.variables));
+		//template.print(gr.number + ":   " + gr.cat_item.getDisplayValue() + ", Stage: " + stage + "</br>");
+		for (key in gr.variables) {
+			var v = gr.variables[key];
+			if (v && v.getGlideObject && v.getGlideObject() && v.getGlideObject().getQuestion()) {
+				var lb = v.getGlideObject().getQuestion().getLabel();
+				var value = v.getDisplayValue();
+				if(value){
+					template.print('<tr><td class="detailsContentInlineTD">' + notifyUtils.getDetailsContentLabel(lb) + ': ' + notifyUtils.greyAreaContentLine(value) + '</td></tr>');
+				}
+				
+			}
+		}
+		template.print(notifyUtils.endofTable());
+	}
+	if(!detailOn){
+		var propertyValue = gs.getProperty(pvalue) || '';
+		var valueArray = propertyValue.split(',').slice(1).map(function(value) {
+			return value.trim();
+		});
+		//gs.info("SRI pvalues = " + element +  " len = " + valueArray.length);
+		var grt = new GlideRecord(table);
+		grt.addEncodedQuery('sys_id='+current.document_id);
+		grt.query();
+		if(grt.next() && valueArray.length > 0) {
+			template.print(notifyUtils.startOfDetailsmetadataRow()); //Start of Details Label section
+			template.print(notifyUtils.getDetailsLabelText("Details"));
+			template.print(notifyUtils.endofTableandTR()); // End of Details Label Section Div.
+			template.print(notifyUtils.getBodyDivider());
+			template.print(notifyUtils.startOfDetailsContentTable()); //Start of Details Content
+			valueArray.forEach(function(element) {
+				//gs.print('Value: ' + value);
+				var lbl = grt.getElement(element).getLabel();
+				var vl = grt.getDisplayValue(element);
+				if(vl){
+					template.print('<tr><td class="detailsContentInlineTD">' + notifyUtils.getDetailsContentLabel(lbl) + ': ' +  notifyUtils.greyAreaContentLine(vl) + '</td></tr>');
+				}
+				
+			});
+			
+
+		}
+		template.print(notifyUtils.endofTable());
+	}
+	
+})(current, template, email, email_action, event);

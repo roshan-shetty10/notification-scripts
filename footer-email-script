@@ -1,0 +1,71 @@
+(function runMailScript( /* GlideRecord */ current, /* TemplatePrinter */ template,
+    /* Optional EmailOutbound */
+    email, /* Optional GlideRecord */ email_action,
+    /* Optional GlideRecord */
+    event) {
+
+    var url = 'https://www.alshaya.com/en/';
+    var face = 'https://www.facebook.com/Alshaya';
+    var insta = 'https://www.instagram.com/alshayagroup/#';
+    var sp = 'https://alshaya.service-now.com/sp';
+
+    // var sysID1 = current.getValue('sys_id');
+    // var table = current.getTableName();
+    // var HREF = "/" + table + ".do?sys_id=" + sysID1;
+    // var hereLink = '<a href="' + HREF + '" style= "text-decoration: none;color: #008185;">here</a>';
+
+    // var header = "Task";
+    // var notifyUtils = new global.NotificationUtils(header);
+    // var link = notifyUtils.getLink(current);
+
+    // template.print("<font style ='color: #293E40;font-family: Arial;'> Click " + hereLink + " To open the Task.</font><br><br>");
+
+    //template.print("<font style ='color: #293E40;font-family: Arial;'><strong> Thanks & Regards  <br/>  Servicedesk - IT  <br/>  M.H.Alshaya Co W.L.L  <br/>  Retail Division  <br/>   P.O.Box 181, Safat 13002, KuwaitAvaya  <br/> </strong></font><br>");
+
+    // template.print("<font style ='color: #293E40;font-family: Arial;'><strong><a href=' + url + '>www.alshaya.com </a') </strong></font><br> <br/> <a href=' + face + '>www.facebook.com / Alshaya </a')<br/> | <a href=' + insta + '>www.instagram.com / alshayagroup </a') <br/> | <a href=' + sp + '>Service Portal </a')</strong></font><br>");
+
+    /* template.print("<font style='color: #293E40; font-family: Arial;'>");
+    template.print("<strong>");
+    template.print("<br/><a href='" + url + "' style='text-decoration: none; color: #008185;'>www.Alshaya.com</a><br>");
+	template.space("1");
+    template.print("<a href='" + face + "' style='text-decoration: none; color: #008185;'>www.Facebook.com / Alshaya</a>");
+    template.space("1");
+    template.print("|");
+	template.space("1");
+    template.print("<a href='" + insta + "' style='text-decoration: none; color: #008185;'>www.Instagram.com / alshayagroup</a>");
+    template.space("1");
+    template.print("|");
+	template.space("1");
+    template.print("<a href='" + sp + "' style='text-decoration: none; color: #008185;'>Service Portal</a>");
+    template.print("</strong>");
+    template.print("</font><br>");*/
+   
+
+    template.print('<div style="color: #293E40; font-family: Arial;font-size: 12px">');
+    template.print('  <p style="margin: 0;"><strong>');
+    template.print('  <strong>  Thanks & Regards,</strong><br><br>');
+    template.print('    <strong>Servicedesk - IT</strong>');
+    template.print('  </p>');
+    template.print('  <p style="margin: 9px 0 0;">');
+    template.print('    M.H.Alshaya Co W.L.L<br>');
+    template.print('    Retail Division<br>');
+    template.print('    P.O.Box 181, Safat 13002, KuwaitAvaya');
+    template.print(' </strong> </p>');
+    template.print(' <strong>  <p style="margin: 9px 0 0;">');
+    template.print('  <p style="margin: 9px 0 0;">');
+    template.print('    <a href="http://www.alshaya.com" style="color: #0000FF; text-decoration: none;">www.alshaya.com</a><br>');
+    template.print('    <a href="http://www.facebook.com/Alshaya" style="font-size: 12px;color: #0000FF; text-decoration: none;">www.facebook.com/Alshaya</a> | ');
+    template.print('    <a href="http://www.instagram.com/alshayagroup" style="font-size: 12px;color: #0000FF; text-decoration: none;">www.instagram.com/alshayagroup</a>  | ');
+    template.print('    <a href="https://alshaya.service-now.com/sp" style="font-size: 12px;color: #0000FF; text-decoration: none;">https://alshaya.service-now.com/sp</a>');
+    template.print(' </strong>  </p>');
+    template.print('  <p style="margin: 20px 0 0;">');
+    template.print('    <img src="signature.gif" width="450" height="100"/>');
+    template.print('  </p>');
+    template.print('</div>');
+
+//color:#0074d9
+//#008185
+
+
+
+})(current, template, email, email_action, event);
